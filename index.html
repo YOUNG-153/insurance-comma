@@ -996,7 +996,7 @@ function showResult() {
       <div class="area-comment">${comment}</div>
       <div class="area-links">`;
     links.forEach(link => {
-      html += `<a href="${link.url}" class="area-link">📖 ${link.title}</a><br>`;
+      html += `<a href="${link.url}" target="_blank" rel="noopener noreferrer" class="area-link">📖 ${link.title}</a><br>`;
     });
     html += `</div></div>`;
   });
