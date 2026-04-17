@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나에게 필요한 쉼표 찾기 | 보험쉼표, 최종미</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green-dark: #2d3e24;
+  --green-main: #4a6b3c;
+  --green-mid: #5b7a4a;
+  --green-light: #a8c9a0;
+  --green-pale: #dce6d4;
+  --green-bg: #eef2ea;
+  --cream: #faf7f0;
+  --beige: #e8dcc4;
+  --text-dark: #2a2a2a;
+  --text-mid: #555;
+  --text-light: #888;
+  --ansim: #5b7a4a;
+  --gajok: #4a7a9b;
+  --mirae: #8b6f47;
+  --reset: #7a5b8a;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--green-bg);
+  color: var(--text-dark);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── 배경 장식 ── */
+body::before {
+  content: ',';
+  position: fixed;
+  font-family: 'Noto Serif KR', serif;
+  font-size: 60vw;
+  font-weight: 900;
+  color: rgba(168, 201, 160, 0.07);
+  right: -15vw;
+  top: -10vh;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 40px 20px 60px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── 헤더 ── */
+.header {
+  text-align: center;
+  margin-bottom: 48px;
+  animation: fadeUp 0.8s ease-out;
+}
+
+.header-tag {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--green-mid);
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.header-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--green-dark);
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.header-sub {
+  font-size: 14px;
+  color: var(--text-mid);
+  line-height: 1.7;
+}
+
+.header-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  padding: 6px 16px;
+  background: rgba(91, 122, 74, 0.1);
+  border-radius: 20px;
+  font-size: 13px;
+  color: var(--green-mid);
+  font-weight: 500;
+}
+
+/* ── 프로그레스 바 ── */
+.progress-wrap {
+  margin-bottom: 32px;
+  animation: fadeUp 0.8s ease-out 0.1s both;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: var(--green-pale);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green-light), var(--green-main));
+  border-radius: 2px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── 카드 ── */
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 36px 32px;
+  box-shadow: 0 2px 20px rgba(45, 62, 36, 0.06);
+  margin-bottom: 20px;
+  animation: fadeUp 0.5s ease-out;
+}
+
+.card-section {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.card-section.ansim { color: var(--ansim); }
+.card-section.gajok { color: var(--gajok); }
+.card-section.mirae { color: var(--mirae); }
+.card-section.reset { color: var(--reset); }
+.card-section.basic { color: var(--green-mid); }
+
+.card-step {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-bottom: 20px;
+}
+
+.card-question {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--green-dark);
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+/* ── 선택지 ── */
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 16px 20px;
+  border: 1.5px solid var(--green-pale);
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 15px;
+  color: var(--text-dark);
+  text-align: left;
+}
+
+.option-btn:hover {
+  border-color: var(--green-light);
+  background: var(--green-bg);
+  transform: translateY(-1px);
+}
+
+.option-btn.selected {
+  border-color: var(--green-main);
+  background: rgba(91, 122, 74, 0.06);
+}
+
+.option-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--green-pale);
+  flex-shrink: 0;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.option-btn.selected .option-dot {
+  border-color: var(--green-main);
+  background: var(--green-main);
+}
+
+.option-btn.selected .option-dot::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px; height: 6px;
+  background: white;
+  border-radius: 50%;
+}
+
+/* ── 기본정보 그리드 ── */
+.grid-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.grid-btn {
+  padding: 16px;
+  border: 1.5px solid var(--green-pale);
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: center;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.grid-btn:hover {
+  border-color: var(--green-light);
+  background: var(--green-bg);
+  transform: translateY(-1px);
+}
+
+.grid-btn.selected {
+  border-color: var(--green-main);
+  background: rgba(91, 122, 74, 0.06);
+}
+
+.grid-btn-icon {
+  font-size: 24px;
+  margin-bottom: 6px;
+}
+
+.grid-btn-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-dark);
+}
+
+.grid-btn-sub {
+  font-size: 11px;
+  color: var(--text-light);
+  margin-top: 2px;
+}
+
+/* ── 네비게이션 ── */
+.nav-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.nav-btn {
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: none;
+}
+
+.nav-prev {
+  background: transparent;
+  color: var(--text-mid);
+  border: 1.5px solid #ddd;
+}
+
+.nav-prev:hover { border-color: var(--green-light); color: var(--green-main); }
+
+.nav-next {
+  background: var(--green-main);
+  color: white;
+}
+
+.nav-next:hover { background: var(--green-dark); transform: translateY(-1px); }
+.nav-next:disabled { background: var(--green-pale); cursor: not-allowed; transform: none; }
+
+/* ── 결과 화면 ── */
+.result-wrap {
+  animation: fadeUp 0.6s ease-out;
+}
+
+.result-card {
+  background: white;
+  border-radius: 16px;
+  padding: 36px 32px;
+  box-shadow: 0 2px 20px rgba(45, 62, 36, 0.06);
+  margin-bottom: 16px;
+}
+
+.result-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--green-dark);
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.result-subtitle {
+  font-size: 14px;
+  color: var(--text-mid);
+  text-align: center;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+/* 레이더 차트 */
+.chart-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+/* 1순위 쉼표 */
+.primary-comma {
+  text-align: center;
+  padding: 28px;
+  border-radius: 14px;
+  margin-bottom: 28px;
+}
+
+.primary-comma.ansim-bg { background: rgba(91, 122, 74, 0.08); }
+.primary-comma.gajok-bg { background: rgba(74, 122, 155, 0.08); }
+.primary-comma.mirae-bg { background: rgba(139, 111, 71, 0.08); }
+.primary-comma.reset-bg { background: rgba(122, 91, 138, 0.08); }
+
+.primary-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.primary-name {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 28px;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+
+.primary-desc {
+  font-size: 14px;
+  color: var(--text-mid);
+  line-height: 1.7;
+}
+
+/* 영역별 상세 */
+.area-detail {
+  padding: 20px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.area-detail:last-child { border-bottom: none; }
+
+.area-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.area-name {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.area-score-bar {
+  display: flex;
+  gap: 4px;
+}
+
+.area-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #e8e8e8;
+}
+
+.area-dot.filled.ansim { background: var(--ansim); }
+.area-dot.filled.gajok { background: var(--gajok); }
+.area-dot.filled.mirae { background: var(--mirae); }
+.area-dot.filled.reset { background: var(--reset); }
+
+.area-comment {
+  font-size: 14px;
+  color: var(--text-mid);
+  line-height: 1.7;
+}
+
+.area-links {
+  margin-top: 10px;
+}
+
+.area-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--green-main);
+  text-decoration: none;
+  font-weight: 500;
+  margin-right: 12px;
+  margin-top: 4px;
+}
+
+.area-link:hover { text-decoration: underline; }
+
+/* 면책 고지 */
+.disclaimer {
+  background: rgba(91, 122, 74, 0.05);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-top: 24px;
+}
+
+.disclaimer p {
+  font-size: 12px;
+  color: var(--text-light);
+  line-height: 1.7;
+}
+
+.disclaimer .brand {
+  font-family: 'Noto Serif KR', serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--green-dark);
+  margin-top: 12px;
+}
+
+/* 다시하기 */
+.restart-btn {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  margin-top: 20px;
+  border: 1.5px solid var(--green-main);
+  border-radius: 12px;
+  background: white;
+  color: var(--green-main);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.restart-btn:hover {
+  background: var(--green-main);
+  color: white;
+}
+
+/* ── 애니메이션 ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-enter {
+  animation: fadeUp 0.4s ease-out;
+}
+
+/* ── 모바일 최적화 ── */
+@media (max-width: 420px) {
+  .container { padding: 24px 16px 40px; }
+  .card { padding: 28px 22px; }
+  .card-question { font-size: 17px; }
+  .header-title { font-size: 24px; }
+  .result-card { padding: 28px 22px; }
+}
+
+.hidden { display: none; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- 헤더 -->
+  <div class="header" id="headerArea">
+    <div class="header-tag">보험쉼표, 최종미</div>
+    <h1 class="header-title">나에게 필요한 쉼표,<br>찾아볼까요?</h1>
+    <p class="header-sub">14개 질문으로 내 보험 인식 수준을 확인하고<br>지금 가장 필요한 쉼표를 찾아드립니다.</p>
+    <div class="header-time">⏱ 약 2~3분 소요</div>
+  </div>
+
+  <!-- 프로그레스 -->
+  <div class="progress-wrap" id="progressArea">
+    <div class="progress-info">
+      <span id="progressLabel">기본 정보</span>
+      <span id="progressCount">0 / 14</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+    </div>
+  </div>
+
+  <!-- 질문 영역 -->
+  <div id="questionArea"></div>
+
+  <!-- 결과 영역 -->
+  <div id="resultArea" class="hidden"></div>
+</div>
+
+<script>
+// ── 데이터 ──
+const questions = [
+  // 기본 정보
+  {
+    id: 'age', section: 'basic', sectionLabel: '기본 정보', sectionClass: 'basic',
+    step: '질문 1 / 14',
+    question: '현재 나이대를 선택해주세요.',
+    type: 'grid',
+    options: [
+      { icon: '🌱', label: '25~35세', sub: '사회초년생·신혼', value: 'A' },
+      { icon: '🌳', label: '35~50세', sub: '가장·맞벌이', value: 'B' },
+      { icon: '🍂', label: '50~65세', sub: '은퇴 준비', value: 'C' },
+      { icon: '🌿', label: '기타', sub: '', value: 'X' },
+    ]
+  },
+  {
+    id: 'family', section: 'basic', sectionLabel: '기본 정보', sectionClass: 'basic',
+    step: '질문 2 / 14',
+    question: '현재 가족 구성을 선택해주세요.',
+    type: 'grid',
+    options: [
+      { icon: '🧑', label: '미혼 / 1인', sub: '', value: 'single' },
+      { icon: '👫', label: '부부 (자녀 없음)', sub: '', value: 'couple' },
+      { icon: '👨‍👩‍👧', label: '자녀 있는 가정', sub: '', value: 'family' },
+      { icon: '🏠', label: '기타', sub: '', value: 'other' },
+    ]
+  },
+  // 안심쉼표
+  {
+    id: 'ansim1', section: 'ansim', sectionLabel: '안심쉼표', sectionClass: 'ansim',
+    step: '질문 3 / 14',
+    question: '내 보장성 보험에 입원비와 수술비가 각각 포함되어 있는지 알고 있습니까?',
+    type: 'radio',
+    options: [
+      { label: '네, 알고 있습니다', value: 2 },
+      { label: '대략은 알지만 정확하지 않습니다', value: 1 },
+      { label: '잘 모르겠습니다', value: 0 },
+    ]
+  },
+  {
+    id: 'ansim2', section: 'ansim', sectionLabel: '안심쉼표', sectionClass: 'ansim',
+    step: '질문 4 / 14',
+    question: '내 실손보험이 몇 세대인지 알고 있습니까?',
+    type: 'radio',
+    options: [
+      { label: '네, 알고 있습니다', value: 2 },
+      { label: '들어본 적은 있지만 확인은 안 해봤습니다', value: 1 },
+      { label: '실손보험 세대가 뭔지 모릅니다', value: 0 },
+    ]
+  },
+  {
+    id: 'ansim3', section: 'ansim', sectionLabel: '안심쉼표', sectionClass: 'ansim',
+    step: '질문 5 / 14',
+    question: '진단금과 치료비의 차이를 이해하고 있습니까?',
+    type: 'radio',
+    options: [
+      { label: '네, 구분할 수 있습니다', value: 2 },
+      { label: '비슷한 것 같은데 정확한 차이는 모릅니다', value: 1 },
+      { label: '잘 모르겠습니다', value: 0 },
+    ]
+  },
+  // 가족쉼표
+  {
+    id: 'gajok1', section: 'gajok', sectionLabel: '가족쉼표', sectionClass: 'gajok',
+    step: '질문 6 / 14',
+    question: '내가 3개월 이상 일을 못 하게 되었을 때, 가족이 경제적으로 버틸 수 있는 구조가 되어 있습니까?',
+    type: 'radio',
+    options: [
+      { label: '네, 대비가 되어 있습니다', value: 2 },
+      { label: '어느 정도는 되지만 확신은 없습니다', value: 1 },
+      { label: '생각해본 적 없습니다', value: 0 },
+    ]
+  },
+  {
+    id: 'gajok2', section: 'gajok', sectionLabel: '가족쉼표', sectionClass: 'gajok',
+    step: '질문 7 / 14',
+    question: '배우자 또는 가족의 보험 내용을 알고 있습니까?',
+    type: 'radio',
+    options: [
+      { label: '네, 서로의 보험을 파악하고 있습니다', value: 2 },
+      { label: '있다는 건 알지만 내용은 모릅니다', value: 1 },
+      { label: '전혀 모릅니다 / 해당 없음', value: 0 },
+    ]
+  },
+  {
+    id: 'gajok3', section: 'gajok', sectionLabel: '가족쉼표', sectionClass: 'gajok',
+    step: '질문 8 / 14',
+    question: '결혼·출산·이직 이후에 보험을 다시 확인한 적이 있습니까?',
+    type: 'radio',
+    options: [
+      { label: '네, 확인하고 조정했습니다', value: 2 },
+      { label: '확인만 하고 조정은 안 했습니다', value: 1 },
+      { label: '한 번도 다시 보지 않았습니다', value: 0 },
+    ]
+  },
+  // 미래쉼표
+  {
+    id: 'mirae1', section: 'mirae', sectionLabel: '미래쉼표', sectionClass: 'mirae',
+    step: '질문 9 / 14',
+    question: '국민연금 예상 수령액을 확인해본 적이 있습니까?',
+    type: 'radio',
+    options: [
+      { label: '네, 확인했습니다', value: 2 },
+      { label: '확인 방법은 알지만 아직 안 해봤습니다', value: 1 },
+      { label: '확인해본 적 없습니다', value: 0 },
+    ]
+  },
+  {
+    id: 'mirae2', section: 'mirae', sectionLabel: '미래쉼표', sectionClass: 'mirae',
+    step: '질문 10 / 14',
+    question: '내 퇴직연금이 DB(확정급여형)인지 DC(확정기여형)인지 알고 있습니까?',
+    type: 'radio',
+    options: [
+      { label: '네, 알고 있습니다', value: 2 },
+      { label: '들어본 적은 있지만 내 유형은 모릅니다', value: 1 },
+      { label: '잘 모르겠습니다 / 해당 없음', value: 0 },
+    ]
+  },
+  {
+    id: 'mirae3', section: 'mirae', sectionLabel: '미래쉼표', sectionClass: 'mirae',
+    step: '질문 11 / 14',
+    question: '국민연금·퇴직연금 외에 별도로 노후 준비를 하고 있습니까?',
+    type: 'radio',
+    options: [
+      { label: '네, 하고 있습니다', value: 2 },
+      { label: '해야겠다고 생각만 하고 있습니다', value: 1 },
+      { label: '아직 아무것도 안 하고 있습니다', value: 0 },
+    ]
+  },
+  // 리셋쉼표
+  {
+    id: 'reset1', section: 'reset', sectionLabel: '리셋쉼표', sectionClass: 'reset',
+    step: '질문 12 / 14',
+    question: '매달 내고 있는 보험료 합계를 알고 있습니까?',
+    type: 'radio',
+    options: [
+      { label: '네, 정확히 알고 있습니다', value: 2 },
+      { label: '대략은 알지만 정확하지 않습니다', value: 1 },
+      { label: '모릅니다', value: 0 },
+    ]
+  },
+  {
+    id: 'reset2', section: 'reset', sectionLabel: '리셋쉼표', sectionClass: 'reset',
+    step: '질문 13 / 14',
+    question: '내 보험의 보장 기간이 언제까지인지 확인한 적이 있습니까?',
+    type: 'radio',
+    options: [
+      { label: '네, 확인했습니다', value: 2 },
+      { label: '일부만 확인했습니다', value: 1 },
+      { label: '확인해본 적 없습니다', value: 0 },
+    ]
+  },
+  {
+    id: 'reset3', section: 'reset', sectionLabel: '리셋쉼표', sectionClass: 'reset',
+    step: '질문 14 / 14',
+    question: '최근 5년 이내에 보험 내용을 전문가에게 점검받은 적이 있습니까?',
+    type: 'radio',
+    options: [
+      { label: '네, 점검받았습니다', value: 2 },
+      { label: '가입할 때 이후로는 없습니다', value: 1 },
+      { label: '한 번도 없습니다', value: 0 },
+    ]
+  },
+];
+
+// 블로그 글 연결 데이터 (하이브리드: 여기만 업데이트하면 결과에 반영)
+const blogLinks = {
+  ansim: [
+    { title: '안심쉼표란? — 예상치 못한 순간을 위한 멈춤', url: '#' },
+    { title: '내 보장, 괜찮을까? — 5가지 체크포인트', url: '#' },
+    { title: '실손보험 1세대부터 5세대까지', url: '#' },
+  ],
+  gajok: [
+    { title: '가족쉼표란? — 소중한 사람에게 건네는 멈춤', url: '#' },
+    { title: '아이가 태어났다면 — 부모가 먼저 점검할 4가지', url: '#' },
+    { title: '맞벌이 부부의 보험 — 3가지 함정', url: '#' },
+  ],
+  mirae: [
+    { title: '미래쉼표란? — 미래의 나에게 보내는 멈춤', url: '#' },
+    { title: '나의 노후 준비 점수는? — 5가지 질문', url: '#' },
+    { title: '3층 연금 구조 쉽게 이해하기', url: '#' },
+  ],
+  reset: [
+    { title: '리셋쉼표란? — 보험도 쉼표가 필요합니다', url: '#' },
+    { title: '내 보험, 이대로 괜찮을까? — 6가지 신호', url: '#' },
+    { title: '보험 리모델링이란? — 해약과 재설계의 차이', url: '#' },
+  ],
+};
+
+const commaInfo = {
+  ansim: { name: '안심쉼표', icon: '🕊', color: 'var(--ansim)', bgClass: 'ansim-bg', desc: '예상치 못한 순간에 대비하는 보장성 보험 관점의 점검이 필요합니다. 내 보장 상태를 정확히 아는 것이 안심의 시작입니다.' },
+  gajok: { name: '가족쉼표', icon: '👨‍👩‍👧', color: 'var(--gajok)', bgClass: 'gajok-bg', desc: '가족 구조에 맞게 보장을 함께 점검할 시점입니다. 보호하는 사람의 보장을 먼저 확인하는 것이 가족을 위한 첫걸음입니다.' },
+  mirae: { name: '미래쉼표', icon: '🌿', color: 'var(--mirae)', bgClass: 'mirae-bg', desc: '노후 준비의 현재 위치를 확인할 시점입니다. 국민연금 수령액 조회부터 시작하면, 부족한 부분이 자연스럽게 보입니다.' },
+  reset: { name: '리셋쉼표', icon: '🔄', color: 'var(--reset)', bgClass: 'reset-bg', desc: '기존 보험을 한번 들여다볼 시점입니다. 해지가 아니라, 지금의 나에게 맞는지 확인하는 것이 리셋의 시작입니다.' },
+};
+
+const areaComments = {
+  ansim: {
+    high: '보장성 보험에 대한 이해가 높습니다. 현재 상태를 잘 유지하시면 됩니다.',
+    mid: '기본적인 인식은 있지만, 세부 내용을 한번 정리해보시면 더 안심이 될 것입니다.',
+    low: '보장 상태를 정확히 파악하지 못하고 있을 수 있습니다. 내 보험 증권을 한번 꺼내보시는 것부터 시작해보세요.',
+  },
+  gajok: {
+    high: '가족 단위의 보장 관점이 잘 잡혀 있습니다.',
+    mid: '가족 보장을 생각하고 있지만, 한번 나란히 펼쳐서 비교해보시면 빈틈이 보일 수 있습니다.',
+    low: '가족의 보장을 하나의 그림으로 볼 필요가 있습니다. 배우자의 보험 내용부터 확인해보세요.',
+  },
+  mirae: {
+    high: '노후 준비에 대한 인식과 행동이 잘 갖춰져 있습니다.',
+    mid: '인식은 있지만 구체적 확인이 부족합니다. 국민연금 예상 수령액 조회를 추천드립니다.',
+    low: '노후 준비의 출발점에 서 있습니다. 국민연금공단 홈페이지(nps.or.kr)에서 예상 수령액을 확인해보세요.',
+  },
+  reset: {
+    high: '보험 관리를 잘 하고 계십니다. 정기적 점검 습관을 유지하시면 됩니다.',
+    mid: '보험이 있지만 최근 점검이 부족합니다. 보험료 합계와 보장 기간부터 확인해보세요.',
+    low: '보험을 가입한 이후 관리가 이루어지지 않고 있습니다. 금융감독원 "내보험 찾아줌"(insure.or.kr)에서 전체 조회를 해보세요.',
+  },
+};
+
+// ── 상태 ──
+let currentQ = 0;
+let answers = {};
+
+// ── 렌더링 ──
+function renderQuestion() {
+  const q = questions[currentQ];
+  const answered = answers[q.id] !== undefined;
+
+  // 프로그레스
+  document.getElementById('progressLabel').textContent =
+    q.section === 'basic' ? '기본 정보' :
+    q.sectionLabel;
+  document.getElementById('progressCount').textContent = `${currentQ + 1} / ${questions.length}`;
+  document.getElementById('progressFill').style.width = `${((currentQ) / questions.length) * 100}%`;
+
+  let html = `<div class="card fade-enter">`;
+  html += `<div class="card-section ${q.sectionClass}">${q.sectionLabel}</div>`;
+  html += `<div class="card-step">${q.step}</div>`;
+  html += `<div class="card-question">${q.question}</div>`;
+
+  if (q.type === 'grid') {
+    html += `<div class="grid-options">`;
+    q.options.forEach((opt, i) => {
+      const sel = answers[q.id] === opt.value ? ' selected' : '';
+      html += `<button class="grid-btn${sel}" onclick="selectAnswer('${q.id}', '${opt.value}', this)">
+        <div class="grid-btn-icon">${opt.icon}</div>
+        <div class="grid-btn-label">${opt.label}</div>
+        ${opt.sub ? `<div class="grid-btn-sub">${opt.sub}</div>` : ''}
+      </button>`;
+    });
+    html += `</div>`;
+  } else {
+    html += `<div class="options">`;
+    q.options.forEach((opt, i) => {
+      const sel = answers[q.id] === opt.value ? ' selected' : '';
+      html += `<button class="option-btn${sel}" onclick="selectAnswer('${q.id}', ${opt.value}, this)">
+        <div class="option-dot"></div>
+        <span>${opt.label}</span>
+      </button>`;
+    });
+    html += `</div>`;
+  }
+
+  html += `</div>`;
+
+  // 네비게이션
+  html += `<div class="nav-wrap">`;
+  if (currentQ > 0) {
+    html += `<button class="nav-btn nav-prev" onclick="prevQuestion()">← 이전</button>`;
+  } else {
+    html += `<div></div>`;
+  }
+
+  if (currentQ < questions.length - 1) {
+    html += `<button class="nav-btn nav-next" id="nextBtn" onclick="nextQuestion()" ${!answered ? 'disabled' : ''}>다음 →</button>`;
+  } else {
+    html += `<button class="nav-btn nav-next" id="nextBtn" onclick="showResult()" ${!answered ? 'disabled' : ''}>결과 보기</button>`;
+  }
+  html += `</div>`;
+
+  document.getElementById('questionArea').innerHTML = html;
+}
+
+function selectAnswer(id, value, btn) {
+  answers[id] = value;
+
+  // 시각적 선택 표시
+  const q = questions[currentQ];
+  if (q.type === 'grid') {
+    btn.parentElement.querySelectorAll('.grid-btn').forEach(b => b.classList.remove('selected'));
+  } else {
+    btn.parentElement.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  }
+  btn.classList.add('selected');
+
+  // 다음 버튼 활성화
+  const nextBtn = document.getElementById('nextBtn');
+  if (nextBtn) nextBtn.disabled = false;
+
+  // 자동 진행 (0.4초 후)
+  setTimeout(() => {
+    if (currentQ < questions.length - 1) nextQuestion();
+  }, 400);
+}
+
+function nextQuestion() {
+  if (answers[questions[currentQ].id] === undefined) return;
+  currentQ++;
+  renderQuestion();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function prevQuestion() {
+  if (currentQ > 0) {
+    currentQ--;
+    renderQuestion();
+  }
+}
+
+// ── 결과 계산 ──
+function calcScores() {
+  const scores = { ansim: 0, gajok: 0, mirae: 0, reset: 0 };
+  questions.forEach(q => {
+    if (q.section !== 'basic' && answers[q.id] !== undefined) {
+      scores[q.section] += answers[q.id];
+    }
+  });
+  return scores; // 각 0~6
+}
+
+function getCommentLevel(score) {
+  if (score >= 5) return 'high';
+  if (score >= 3) return 'mid';
+  return 'low';
+}
+
+// ── 레이더 차트 (SVG) ──
+function drawRadar(scores) {
+  const cx = 150, cy = 150, r = 110;
+  const labels = [
+    { key: 'ansim', name: '안심', angle: -90 },
+    { key: 'gajok', name: '가족', angle: 0 },
+    { key: 'reset', name: '리셋', angle: 90 },
+    { key: 'mirae', name: '미래', angle: 180 },
+  ];
+
+  function polarToXY(angle, radius) {
+    const rad = (angle * Math.PI) / 180;
+    return { x: cx + radius * Math.cos(rad), y: cy + radius * Math.sin(rad) };
+  }
+
+  // 배경 그리드
+  let gridLines = '';
+  [0.33, 0.66, 1].forEach(scale => {
+    const pts = labels.map(l => {
+      const p = polarToXY(l.angle, r * scale);
+      return `${p.x},${p.y}`;
+    }).join(' ');
+    gridLines += `<polygon points="${pts}" fill="none" stroke="#dce6d4" stroke-width="1"/>`;
+  });
+
+  // 축선
+  let axisLines = '';
+  labels.forEach(l => {
+    const p = polarToXY(l.angle, r);
+    axisLines += `<line x1="${cx}" y1="${cy}" x2="${p.x}" y2="${p.y}" stroke="#dce6d4" stroke-width="1"/>`;
+  });
+
+  // 데이터 영역
+  const dataPoints = labels.map(l => {
+    const val = scores[l.key] / 6;
+    const p = polarToXY(l.angle, r * Math.max(val, 0.05));
+    return `${p.x},${p.y}`;
+  }).join(' ');
+
+  // 라벨
+  let labelTexts = '';
+  const colors = { ansim: '#5b7a4a', gajok: '#4a7a9b', mirae: '#8b6f47', reset: '#7a5b8a' };
+  labels.forEach(l => {
+    const p = polarToXY(l.angle, r + 28);
+    const score = scores[l.key];
+    labelTexts += `<text x="${p.x}" y="${p.y}" text-anchor="middle" dominant-baseline="middle" font-family="Noto Sans KR" font-size="13" font-weight="700" fill="${colors[l.key]}">${l.name}</text>`;
+    labelTexts += `<text x="${p.x}" y="${p.y + 16}" text-anchor="middle" dominant-baseline="middle" font-family="Noto Sans KR" font-size="11" fill="#999">${score}/6</text>`;
+  });
+
+  // 데이터 포인트 점
+  let dots = '';
+  labels.forEach(l => {
+    const val = scores[l.key] / 6;
+    const p = polarToXY(l.angle, r * Math.max(val, 0.05));
+    dots += `<circle cx="${p.x}" cy="${p.y}" r="4" fill="${colors[l.key]}"/>`;
+  });
+
+  return `<svg viewBox="0 0 300 300" width="280" height="280">
+    ${gridLines}${axisLines}
+    <polygon points="${dataPoints}" fill="rgba(91,122,74,0.15)" stroke="#5b7a4a" stroke-width="2"/>
+    ${dots}${labelTexts}
+  </svg>`;
+}
+
+// ── 결과 화면 ──
+function showResult() {
+  const scores = calcScores();
+  document.getElementById('questionArea').classList.add('hidden');
+  document.getElementById('progressArea').classList.add('hidden');
+  document.getElementById('headerArea').classList.add('hidden');
+
+  // 프로그레스 100%
+  document.getElementById('progressFill').style.width = '100%';
+
+  // 1순위 쉼표 (가장 낮은 점수)
+  const sorted = Object.entries(scores).sort((a, b) => a[1] - b[1]);
+  const primaryKey = sorted[0][0];
+  const primary = commaInfo[primaryKey];
+
+  // 총점
+  const total = Object.values(scores).reduce((a, b) => a + b, 0);
+  const totalMax = 24;
+  const grade = total >= 20 ? '매우 높음' : total >= 14 ? '보통' : total >= 8 ? '낮음' : '매우 낮음';
+
+  let html = `<div class="result-wrap">`;
+
+  // 요약 카드
+  html += `<div class="result-card">
+    <div class="result-title">나의 보험 쉼표 진단 결과</div>
+    <div class="result-subtitle">보험 인식 종합 점수: <strong>${total} / ${totalMax}점</strong> (${grade})</div>
+    <div class="chart-wrap">${drawRadar(scores)}</div>
+
+    <div class="primary-comma ${primary.bgClass}">
+      <div class="primary-label" style="color:${primary.color}">지금 가장 필요한 쉼표</div>
+      <div class="primary-name" style="color:${primary.color}">${primary.icon} ${primary.name}</div>
+      <div class="primary-desc">${primary.desc}</div>
+    </div>
+  </div>`;
+
+  // 영역별 상세
+  html += `<div class="result-card">
+    <div style="font-family:'Noto Serif KR'; font-size:17px; font-weight:700; color:var(--green-dark); margin-bottom:20px;">영역별 상세 결과</div>`;
+
+  const areaOrder = ['ansim', 'gajok', 'mirae', 'reset'];
+  const areaNames = { ansim: '🕊 안심쉼표', gajok: '👨‍👩‍👧 가족쉼표', mirae: '🌿 미래쉼표', reset: '🔄 리셋쉼표' };
+
+  areaOrder.forEach(key => {
+    const score = scores[key];
+    const level = getCommentLevel(score);
+    const comment = areaComments[key][level];
+    const links = blogLinks[key];
+
+    html += `<div class="area-detail">
+      <div class="area-header">
+        <div class="area-name">${areaNames[key]}</div>
+        <div class="area-score-bar">`;
+    for (let i = 0; i < 6; i++) {
+      html += `<div class="area-dot ${i < score ? 'filled ' + key : ''}"></div>`;
+    }
+    html += `</div></div>
+      <div class="area-comment">${comment}</div>
+      <div class="area-links">`;
+    links.forEach(link => {
+      html += `<a href="${link.url}" class="area-link">📖 ${link.title}</a><br>`;
+    });
+    html += `</div></div>`;
+  });
+
+  html += `</div>`;
+
+  // 면책 고지
+  html += `<div class="disclaimer">
+    <p>본 진단은 일반적인 보험 인식 수준을 확인하기 위한 참고 도구이며, 특정 상품을 권유하거나 광고하지 않습니다. 개별 상황에 따른 판단은 전문가와의 상담을 통해 이루어져야 합니다.</p>
+    <p>궁금한 점이 있으시면 편하게 메시지 남겨주세요.</p>
+    <p class="brand">인생의 쉼표 하나, 준비하셨나요?<br>— 보험쉼표, 최종미</p>
+  </div>`;
+
+  // 다시하기
+  html += `<button class="restart-btn" onclick="restart()">처음부터 다시 해보기</button>`;
+
+  html += `</div>`;
+
+  document.getElementById('resultArea').innerHTML = html;
+  document.getElementById('resultArea').classList.remove('hidden');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restart() {
+  currentQ = 0;
+  answers = {};
+  document.getElementById('resultArea').classList.add('hidden');
+  document.getElementById('resultArea').innerHTML = '';
+  document.getElementById('questionArea').classList.remove('hidden');
+  document.getElementById('progressArea').classList.remove('hidden');
+  document.getElementById('headerArea').classList.remove('hidden');
+  renderQuestion();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// 초기 렌더링
+renderQuestion();
+</script>
+
+</body>
+</html>
